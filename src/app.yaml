@@ -5,9 +5,17 @@ api_version: 1
 threadsafe: yes
 
 handlers:
+- url: /twitter_connect
+  script: twitter_connect.app
+  
+- url: /oauth_callback
+  script: oauth_callback.app
+
 - url: /.*
   script: helloworld.app
   
 libraries:
 - name: webapp2
-  version: "2.5.2"
+  version: latest
+- name: jinja2
+  version: latest
