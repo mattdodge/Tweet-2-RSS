@@ -1,0 +1,7 @@
+#######
+##   	Rename this file to config.py for proper functionality
+#######
+
+CONSUMER_KEY = "PUT CONSUMER KEY HERE"
+CONSUMER_SECRET = "PUT CONSUMER SECRET HERE"
+

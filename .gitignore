@@ -1,0 +1,7 @@
+.project
+.pydevproject
+.DS_Store
+
+
+src/config.py
+*.pyc
