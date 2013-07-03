@@ -87,15 +87,24 @@ class FeedHandler(webapp2.RequestHandler):
         
         outItems = outDict['rss']['channel']['item']
         
+        if 'statuses' in twit:
+            twit = twit['statuses']
+        
         for tweet in twit:
-            tweet['title'] = tweet['text']
-            tweet['description'] = tweet['text']
-            tweet['author'] = tweet['user']['screen_name']
-            tweet['link'] = 'http://twitter.com/{0}/status/{1}'.format(tweet['author'], tweet['id_str'])
-            tweet['guid'] = tweet['id_str']
-            tweet['pubDate'] = tweet['created_at']
-            
-            outItems.append(tweet)
+            try:
+                tweet['title'] = tweet['text']
+                tweet['description'] = tweet['text']
+                tweet['author'] = tweet['user']['screen_name']
+                tweet['link'] = 'http://twitter.com/{0}/status/{1}'.format(tweet['author'], tweet['id_str'])
+                tweet['guid'] = tweet['id_str']
+                tweet['pubDate'] = tweet['created_at']
+                
+                outItems.append(tweet)
+            except Exception as e:
+                logging.error("Error processing tweet")
+                logging.error(tweet)
+                logging.exception(e)
+                continue
         
         return outDict
 
