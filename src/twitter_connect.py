@@ -1,9 +1,3 @@
-'''
-Created on Jul 2, 2013
-
-@author: matt
-'''
-
 import config
 import oauth
 import webapp2

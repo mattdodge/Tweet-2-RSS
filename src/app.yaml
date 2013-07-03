@@ -5,6 +5,9 @@ api_version: 1
 threadsafe: yes
 
 handlers:
+- url: /feed/.*
+  script: feed.app
+  
 - url: /twitter_connect
   script: twitter_connect.app
   
