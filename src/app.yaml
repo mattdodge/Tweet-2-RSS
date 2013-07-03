@@ -14,8 +14,14 @@ handlers:
 - url: /oauth_callback
   script: oauth_callback.app
 
+- url: /builder
+  script: builder.app
+
+- url: /static
+  static_dir: view/static
+  
 - url: /.*
-  script: helloworld.app
+  script: main.app
   
 libraries:
 - name: webapp2

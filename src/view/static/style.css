@@ -1,0 +1,84 @@
+body {
+	background: #efefef url('/static/img/bg.jpg') repeat top left;
+}
+
+.heading {
+	text-align: center;
+	padding: 90px 0 30px;
+	color: #fff;
+	background: #1a487f; /* Old browsers */
+background: -moz-linear-gradient(-45deg,  #1a487f 0%, #004f77 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#1a487f), color-stop(100%,#004f77)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg,  #1a487f 0%,#004f77 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg,  #1a487f 0%,#004f77 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg,  #1a487f 0%,#004f77 100%); /* IE10+ */
+background: linear-gradient(135deg,  #1a487f 0%,#004f77 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a487f', endColorstr='#004f77',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}
+
+.heading h1 {
+	font-size: 100px;
+	line-height: 1;
+}
+
+.heading p {
+	font-size: 40px;
+	margin: 30px 0;
+	line-height: 1;
+}
+
+.description {
+	padding: 60px 30px;
+	
+}
+
+.description > .row-fluid {
+	margin-top: 40px;
+}
+
+.description p {
+	font-size: 20px;
+	line-height: 1.6;
+}
+
+.thumbnail {
+	border: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	-webkit-box-shadow: 0 0 0 rgba(0, 0, 0, 0.055);
+	-moz-box-shadow: 0 0 0 rgba(0, 0, 0, 0.055);
+	box-shadow: 0 0 0 rgba(0, 0, 0, 0.055);
+}
+
+.steps h3 {
+	margin-top: 40px;
+}
+
+.steps p {
+	font-size: 16px;
+	margin: -15px 10px 0;
+	line-height: 1.6;
+}
+
+footer {
+	padding: 30px 0;
+	background-color: #222;
+	color: #fff;
+}
+
+footer p {
+	margin-top: 15px;
+}
+
+footer a {
+	color: #4DB2D0;
+}
+
+footer a:hover {
+	color: #FFF;
+}
+
+
+
