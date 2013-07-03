@@ -278,7 +278,7 @@ class OAuthClient():
     auth = AuthToken(service=self.service_name,
                      token=auth_token,
                      secret=auth_secret)
-    auth.put()
+#     auth.put()
 
     # Add the secret to memcache as well.
     memcache.set(self._get_memcache_auth_key(auth_token), auth_secret,
