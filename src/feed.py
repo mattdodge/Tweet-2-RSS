@@ -108,6 +108,6 @@ class FeedHandler(webapp2.RequestHandler):
         
         return outDict
 
-app = webapp2.WSGIApplication([('/feed/([a-zA-Z0-9_]{1,15})/([a-zA-Z0-9]+)/(.*)', FeedHandler)], debug=True)
+app = webapp2.WSGIApplication([('/feed/([a-zA-Z0-9_]{1,15})/([a-zA-Z0-9]+)/?(.*)', FeedHandler)], debug=True)
 
 
