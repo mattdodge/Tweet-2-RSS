@@ -86,7 +86,7 @@ class FeedHandler(webapp2.RequestHandler):
         }
         
         outItems = outDict['rss']['channel']['item']
-        if not isinstance(twit, dict):
+        if not twit:
             logging.warning("We obviously didn't get a valid dictionary")
             # TODO : Probably should do some Twitter error checking here
             twit = []
@@ -94,6 +94,10 @@ class FeedHandler(webapp2.RequestHandler):
         if 'statuses' in twit:
             twit = twit['statuses']
         
+        if not isinstance(twit, list):
+            logging.warning("Twitter output should be a list...uh oh")
+            twit = []
+            
         for tweet in twit:
             try:
                 tweet['title'] = tweet['text']
