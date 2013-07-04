@@ -5,3 +5,5 @@
 CONSUMER_KEY = "PUT CONSUMER KEY HERE"
 CONSUMER_SECRET = "PUT CONSUMER SECRET HERE"
 
+CALLBACK = "http://tweet-2-rss.appspot.com/oauth_callback"
+
