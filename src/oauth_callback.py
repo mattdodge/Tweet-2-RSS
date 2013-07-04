@@ -5,6 +5,8 @@ import logging
 
 from twitterUser import TwitterUser
 
+from gaesessions import get_current_session
+
 class OauthCallbackHandler(webapp2.RequestHandler):
     def get(self):
         try:
@@ -24,20 +26,14 @@ class OauthCallbackHandler(webapp2.RequestHandler):
             
             theUserRecord.put()
             
-            self.response.out.write(
-                """
-                    Welcome <b>{0}</b>, you are now connected.<br/>
-                    <img src="{1}" />
-                    <hr/>
-                    Your code is <h2>{2}</h2>
-                    <br/><br/>
-                    Your feed link will look like <b>http://tweet-2-rss.appspot.com/feed/{3}/{4}</b>
-                """.format(
-                userInfo['name'], 
-                userInfo['picture'],
-                self.getAccessCodeFromToken(userInfo['token']),
-                userInfo['username'],
-                self.getAccessCodeFromToken(userInfo['token'])))
+            session = get_current_session()
+            
+            session.regenerate_id()
+            
+            session['twitter_user'] = userInfo
+            session['user_record'] = theUserRecord
+            
+            self.redirect("/builder")
             
         except Exception as e:
             logging.exception(e)
