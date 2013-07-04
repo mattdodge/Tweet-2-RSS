@@ -10,6 +10,12 @@ from gaesessions import get_current_session
 class OauthCallbackHandler(webapp2.RequestHandler):
     def get(self):
         try:
+            
+            # Check if the validation was denied
+            if self.request.get('denied'):
+                self.redirect("/?denied=True")
+                return
+            
             client = oauth.TwitterClient(config.CONSUMER_KEY, config.CONSUMER_SECRET, config.CALLBACK)
             
             authToken = self.request.get("oauth_token")

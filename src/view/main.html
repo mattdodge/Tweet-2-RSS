@@ -13,6 +13,11 @@
 <body>
 
 	<header class="jumbotron masthead heading">
+		{% if denied %}
+			<div class="alert alert-error" style="margin-left: 20px; margin-right: 20px; ">
+			  Duh, we need your permission from Twitter. We won't post or anything, we promise. Why don't you go ahead and try that again...
+			</div>
+		{% endif %}
 		<h1>Tweet 2 RSS</h1>
 		
 		<p>

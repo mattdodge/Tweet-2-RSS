@@ -7,7 +7,9 @@ class MainPage(webapp.RequestHandler):
     
     def get(self):
         template = jinja_environment.get_template('main.html')
-        self.response.out.write(template.render({}))
+        self.response.out.write(template.render({
+            'denied' : self.request.get('denied')
+        }))
 
 
 jinja_environment = jinja2.Environment(autoescape=True,
