@@ -279,7 +279,7 @@ function buildFeedURL() {
 		}
 	}
 	
-	$('#feedURL').val(urlPrefix + curFeed.url + paramString).scrollLeft(10000);
+	$('#feedURL').val(urlPrefix + curFeed.url + encodeURI(paramString)).scrollLeft(10000);
 }
 </script>
 	
