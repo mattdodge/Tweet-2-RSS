@@ -32,9 +32,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#131313', end
 	display: inline-block;
 }
 
+.twitter-share {
+	margin: 20px 20px;
+}
+
 .heading {
 	text-align: center;
-	padding: 90px 0 30px;
+	padding: 60px 0 30px;
 	color: #fff;
 	background: #1a487f; /* Old browsers */
 background: -moz-linear-gradient(-45deg,  #1a487f 0%, #004f77 100%); /* FF3.6+ */

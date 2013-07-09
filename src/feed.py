@@ -97,7 +97,6 @@ class FeedHandler(webapp2.RequestHandler):
         if not isinstance(twit, list):
             logging.warning("Twitter output should be a list...uh oh")
             twit = []
-            
         for tweet in twit:
             try:
                 tweet['title'] = tweet['text']
