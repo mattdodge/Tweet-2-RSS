@@ -2,7 +2,7 @@
 "Makes working with XML feel like you are working with JSON"
 
 from xml.parsers import expat
-from xml.sax.saxutils import XMLGenerator, quoteattr, escape
+from xml.sax.saxutils import XMLGenerator
 from xml.sax.xmlreader import AttributesImpl
 try: # pragma no cover
     from cStringIO import StringIO
@@ -14,7 +14,10 @@ except ImportError: # pragma no cover
 try: # pragma no cover
     from collections import OrderedDict
 except ImportError: # pragma no cover
-    OrderedDict = dict
+    try: 
+        from ordereddict import OrderedDict
+    except ImportError:
+        OrderedDict = dict
 
 try: # pragma no cover
     _basestring = basestring
@@ -26,7 +29,7 @@ except NameError: # pragma no cover
     _unicode = str
 
 __author__ = 'Martin Blech'
-__version__ = '0.5.0'
+__version__ = '0.5.1'
 __license__ = 'MIT'
 
 class ParsingInterrupted(Exception): pass
@@ -242,44 +245,13 @@ def _emit(key, value, content_handler,
             content_handler.characters(cdata)
         content_handler.endElement(key)
 
-class _dictContentWriter(XMLGenerator):
-    def __init__(self, out=None, encoding="iso-8859-1"):
-        self.stack = 0
-        self.lastWrittenName = ""
-        self.contentWritten = True
-        XMLGenerator.__init__(self, out, encoding)
-
-    def startElement(self, name, attrs):
-        if not self.contentWritten:
-                self._write("\n")
-        self._write(( '\t' * self.stack) + '<' + name)
-        self.lastWrittenName = name
-        for (name, value) in attrs.items():
-            self._write(' %s=%s' % (name, quoteattr(value)))
-        self._write('>')
-        self.contentWritten = False
-        self.stack += 1
-
-    def endElement(self, name):
-            if name == self.lastWrittenName:
-                self._write('</%s>\n' % name)
-                self.contentWritten = True
-            else:
-                self._write(( '\t' * self.stack) + '</%s>\n' % name)
-            self.stack -= 1
-
-    def characters(self, content):
-            self.contentWritten = True
-            self._write(escape(content))
-
-
 def unparse(item, output=None, encoding='utf-8', **kwargs):
     ((key, value),) = item.items()
     must_return = False
     if output == None:
         output = StringIO()
         must_return = True
-    content_handler = _dictContentWriter(output, encoding)
+    content_handler = XMLGenerator(output, encoding)
     content_handler.startDocument()
     _emit(key, value, content_handler, **kwargs)
     content_handler.endDocument()
