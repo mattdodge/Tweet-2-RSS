@@ -22,6 +22,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#131313', end
 	line-height: 1;
 }
 
+.top-bar h1 a,
+.top-bar h1 a:visited {
+	color: #fff;
+	text-decoration: none;
+}
+
+.top-bar h1 a:hover {
+	text-decoration: underline;
+}
+
 .top-bar img {
 	margin: 10px 5px;
 	height: 30px;

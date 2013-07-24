@@ -14,13 +14,18 @@
 
 	<div class="navbar navbar-fixed-top top-bar">
 	
-		<div class="pull-left"><h1>Tweet-2-RSS Feed Builder</h1></div>
+		<div class="pull-left"><h1><a href='http://tweet-2-rss.appspot.com'>Tweet-2-RSS Feed Builder</a></h1></div>
 		
 		<div class="pull-right">
 			<img src="{{ twitterUser.picture }}" />
 			<p>{{ twitterUser.username }}</p>
 		</div>
 	
+	</div>
+	
+	<div class="pull-right twitter-share" style="margin-top:60px;">
+		<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://tweet-2-rss.appspot.com">Tweet</a>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 	</div>
 	
 	<section class="welcome">
@@ -70,6 +75,12 @@
 				The difference is that for the Twitter call you would have to include all of the OAuth headers and the response would be in JSON format. 
 				The Tweet-2-RSS Feed will work without OAuth and will return in standardized RSS+XML format. You can construct your feed manually in the 
 				input box or use the presets below as a starting point. 
+				</p>
+				<p class='text-warning'>
+				This app runs on Google App Engine, which ends up not being free once enough requests are coming through. Therefore, I ask that you please keep your 
+				requests limited to no more than 1,500 per day (that is about once/minute). This helps keep the cost down for me to run this app. If you would like to
+				make a donation to the app, use <a href='http://gittip.com/mattedgod' target='_blank'>GitTip</a> or <a href='http://mattdodge.net/' target='_blank'>contact me</a>.
+				If you do so you will be free to use the app as much as you like, otherwise I will be revoking access for users not using these guidelines. Thank you.
 				</p>
 			</div>
 		</div>
