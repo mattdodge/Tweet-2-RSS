@@ -25,19 +25,18 @@ class FeedHandler(webapp2.RequestHandler):
                 api = apiEndpoint, 
                 params = self.getParametersDict())
             
-#             self.response.out.write(json.dumps(twitRes))
-#             
-#             self.response.out.write("\n\n\n")
-            
             outDict = self.getRSSDictFromTwitterResponse(twitRes)
             
             self.response.out.write(xmltodict.unparse(outDict))
             
         except Exception as e:
             logging.exception(e)
-            self.response.clear()
-            self.response.set_status(500)
-            self.response.out.write(e)
+            self.raiseError(500, e)
+            
+    def raiseError(self, errorNum, errorMsg):
+        self.response.clear()
+        self.response.set_status(errorNum)
+        self.response.out.write(errorMsg)
     
     def getUser(self, username, accessCode):
         query = TwitterUser.all()
@@ -59,6 +58,9 @@ class FeedHandler(webapp2.RequestHandler):
         
         # get rid of the pesky lists that parse_qs produces
         params.update((key, val[0]) for key,val in params.items())
+        
+        if 'count' not in params:
+            params['count'] = 10 
         
         return params
     
