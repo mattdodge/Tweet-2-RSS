@@ -7,3 +7,9 @@ CONSUMER_SECRET = "PUT CONSUMER SECRET HERE"
 
 CALLBACK = "http://tweet-2-rss.appspot.com/oauth_callback"
 
+#  This is a username/token/secret combo that you can populate to
+#  a local datastore by going to /localcreate
+#  This is useful for debugging feeds locally
+USERNAME = "twitter username"
+TOKEN = "access token, returned by twitter"
+SECRET = "access token secret, returned by twitter"

@@ -1,5 +1,5 @@
 application: tweet-2-rss
-version: 1-4
+version: 1-5
 runtime: python27
 api_version: 1
 threadsafe: yes
@@ -23,6 +23,9 @@ handlers:
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
+  
+- url: /localcreate
+  script: local_create_datastore.app
   
 - url: /.*
   script: main.app
