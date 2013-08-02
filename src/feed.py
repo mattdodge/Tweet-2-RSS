@@ -1,3 +1,4 @@
+from google.appengine.api import memcache
 import webapp2
 from twitterUser import TwitterUser
 import oauth
@@ -39,6 +40,14 @@ class FeedHandler(webapp2.RequestHandler):
         self.response.out.write(errorMsg)
     
     def getUser(self, username, accessCode):
+        # First try memcache
+        result = memcache.get(username)
+
+        if result is not None:
+            # Did we get a cached result? Use it! 
+            return result
+        
+        # Nothing in cache or expired, fetch from datastore then cache that
         query = TwitterUser.all()
         query.filter("username =", username)
         query.filter("accessCode =", accessCode)
@@ -48,6 +57,9 @@ class FeedHandler(webapp2.RequestHandler):
         if not result:
             # Query did not match any access tokens we have, oops
             raise Exception, "No Authorized Twitter User found"
+
+        # Add it to the cache now
+        memcache.add(username, result, 60 * 15)
         
         return result
     
