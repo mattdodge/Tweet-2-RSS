@@ -101,6 +101,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a487f', end
 	color: #333;
 }
 
+form.follow_box {
+    margin-top: -20px;
+    text-align: center;
+}
+
 .description {
 	padding: 60px 30px;
 	

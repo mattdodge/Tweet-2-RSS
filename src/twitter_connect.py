@@ -5,7 +5,9 @@ import webapp2
 
 class TweetConnectHandler(webapp2.RequestHandler):
     def get(self):
-        client = oauth.TwitterClient(config.CONSUMER_KEY, config.CONSUMER_SECRET, config.CALLBACK)
+        callbackURL = config.CALLBACK + ('?follow=True' if self.request.get('follow') else '')
+
+        client = oauth.TwitterClient(config.CONSUMER_KEY, config.CONSUMER_SECRET, callbackURL)
         
         self.redirect(client.get_authenticate_url())
 

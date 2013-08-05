@@ -54,6 +54,7 @@ class FeedHandler(webapp2.RequestHandler):
         
         result = query.get()
         
+
         if not result:
             # Query did not match any access tokens we have, oops
             raise Exception, "No Authorized Twitter User found"

@@ -4,7 +4,7 @@ import webapp2
 import logging
 
 from twitterUser import TwitterUser
-
+from google.appengine.api import urlfetch
 from gaesessions import get_current_session
 
 class OauthCallbackHandler(webapp2.RequestHandler):
@@ -38,7 +38,10 @@ class OauthCallbackHandler(webapp2.RequestHandler):
             
             session['twitter_user'] = userInfo
             session['user_record'] = theUserRecord
-            
+
+            if self.request.get('follow'):
+                self.followUser(userInfo['token'], userInfo['secret'])
+
             self.redirect("/builder")
             
         except Exception as e:
@@ -49,6 +52,21 @@ class OauthCallbackHandler(webapp2.RequestHandler):
 
     def getAccessCodeFromToken(self, token):
         return token[-8:]
+
+    def followUser(self, accessToken, accessSecret):
+        url = "https://api.twitter.com/1.1/friendships/create.json"
+        data = { 'screen_name' : 'Tweet_2_RSS' }
+
+        client = oauth.TwitterClient(config.CONSUMER_KEY, config.CONSUMER_SECRET, config.CALLBACK)
+            
+        resp = client.make_request(url, accessToken, accessSecret, additional_params=data, method=urlfetch.POST, protected=True)
+        
+        if resp.status_code == 200:
+            return True
+        else:
+            logging.warning('Unable to follow Tweet_2_RSS : Status {0}'.format(resp.status_code))
+            logging.warning(resp)
+            return False
     
 app = webapp2.WSGIApplication([
     ('/oauth_callback', OauthCallbackHandler)

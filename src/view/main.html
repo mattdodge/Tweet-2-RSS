@@ -42,7 +42,12 @@
 		<p>Turn Twitter API calls into simple RSS feeds</p>
 		
 		<p style="margin-top: 50px">
-			<a class="btn btn-info btn-large" href="http://tweet-2-rss.appspot.com/twitter_connect"><i class="icon-ok icon-white"></i> Get Started With Twitter</a>
+			<a class="btn btn-info btn-large" href="/twitter_connect?follow=True" id="start_button_top"><i class="icon-ok icon-white"></i> Get Started With Twitter</a>
+            <form class="form-inline follow_box">
+                <label class="checkbox">
+                    <input type="checkbox" checked id="follow_box_top"> Follow @Tweet_2_RSS?
+                </label>
+            </form>
 		</p>
 	</header>
 	
@@ -77,7 +82,7 @@
 				</div>
 				<div class="row-fluid">
 					<div class="span12">
-						<p><a href="http://tweet-2-rss.appspot.com/twitter_connect">Sign up</a> with your Twitter ID. You'll be able to access your timeline, mentions, and more. We will take 
+						<p><a href="/twitter_connect">Sign up</a> with your Twitter ID. You'll be able to access your timeline, mentions, and more. We will take 
 						care of all of the OAuth tokens and header headaches that come with the Twitter v1.1 API.</p>
 					</div>
 				</div>
@@ -132,8 +137,13 @@
 			  
 		</div>
 		
-		<p style="margin: 80px auto; text-align: center; ">
-			<a class="btn btn-info btn-large" href="http://tweet-2-rss.appspot.com/twitter_connect"><i class="icon-ok icon-white"></i> You Convinced Me, Let's Get Started</a>
+		<p style="margin: 80px auto 25px; text-align: center; ">
+			<a class="btn btn-info btn-large" href="/twitter_connect?follow=True" id="start_button_bottom"><i class="icon-ok icon-white"></i> You Convinced Me, Let's Get Started</a>
+            <form class="form-inline follow_box">
+                <label class="checkbox">
+                    <input type="checkbox" checked id="follow_box_bottom"> Follow @Tweet_2_RSS?
+                </label>
+            </form>
 		</p>
 	
 	</section>
@@ -178,8 +188,30 @@
 			
 		</div>
 	</footer>
+
 <script src="/static/bootstrap/js/jquery.js"></script>
-	
+<script>
+    $(function() {
+        var linkPrefix = '/twitter_connect',
+            linkSuffix = '?follow=True'; 
+
+        $('#follow_box_top').change(function() {
+            if (($(this)).prop('checked')) {
+                $('a#start_button_top').attr('href', linkPrefix + linkSuffix);
+            } else {
+                $('a#start_button_top').attr('href', linkPrefix );
+            }
+        });
+        
+        $('#follow_box_bottom').change(function() {
+            if (($(this)).prop('checked')) {
+                $('a#start_button_bottom').attr('href', linkPrefix + linkSuffix);
+            } else {
+                $('a#start_button_bottom').attr('href', linkPrefix );
+            }
+        });
+    });
+</script>
 </body>
 
 </html>
