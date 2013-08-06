@@ -5,3 +5,4 @@
 
 src/config.py
 *.pyc
+.ropeproject/*
