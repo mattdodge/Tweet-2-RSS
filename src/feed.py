@@ -26,7 +26,9 @@ class FeedHandler(webapp2.RequestHandler):
                 api = apiEndpoint, 
                 params = self.getParametersDict())
             
-            outDict = self.getRSSDictFromTwitterResponse(twitRes)
+            outDict = self.getRSSDictFromTwitterResponse(
+                    twitRes, 
+                    username + apiEndpoint + urlparse.urlparse(self.request.url).query)
             
             self.response.out.write(xmltodict.unparse(outDict))
             
@@ -35,7 +37,7 @@ class FeedHandler(webapp2.RequestHandler):
             self.raiseError(500, e)
             
     def raiseError(self, errorNum, errorMsg):
-        self.response.clear()
+        self.response.clear() 
         self.response.set_status(errorNum)
         self.response.out.write(errorMsg)
     
@@ -59,7 +61,7 @@ class FeedHandler(webapp2.RequestHandler):
             raise Exception, "No Authorized Twitter User found"
 
         # Add it to the cache now
-        memcache.add(username, result, 60 * 15)
+        memcache.set(username, result, 60 * 15)
         
         return result
     
@@ -86,7 +88,10 @@ class FeedHandler(webapp2.RequestHandler):
         if resp.status_code == 200:
             return json.loads(resp.content)
         
-    def getRSSDictFromTwitterResponse(self, twit):
+    def getRSSDictFromTwitterResponse(self, twit, limitKey=None):
+        
+        limitId = memcache.get(limitKey) if limitKey else None
+
         outDict = {
             'rss' : {
                 '@version' : '2.0',
@@ -111,6 +116,10 @@ class FeedHandler(webapp2.RequestHandler):
         if not isinstance(twit, list):
             logging.warning("Twitter output should be a list...uh oh")
             twit = []
+
+        # Keep track of the first id, so we can cache it for later
+        firstId = twit[0]['id_str'] if len(twit) > 0 and 'id_str' in twit[0] else None
+
         for tweet in twit:
             try:
                 tweet['title'] = tweet['text']
@@ -121,12 +130,21 @@ class FeedHandler(webapp2.RequestHandler):
                 tweet['pubDate'] = tweet['created_at']
                 
                 outItems.append(tweet)
+
+                # Check if we have reached one we've seen before, then kill it
+                if limitId and str(limitId) == tweet['id_str']:
+                    break
+
             except Exception as e:
                 logging.error("Error processing tweet")
                 logging.error(tweet)
                 logging.exception(e)
                 continue
-        
+
+        if limitKey and firstId and firstId != limitId:
+            # Cache the first id we got for this limit key, keep it for 5 mins
+            memcache.set(limitKey, firstId, 5 * 60)
+
         return outDict
 
 app = webapp2.WSGIApplication([('/feed/([a-zA-Z0-9_]{1,15})/([a-zA-Z0-9]+)/?(.*)', FeedHandler)], debug=True)
