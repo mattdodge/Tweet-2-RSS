@@ -79,6 +79,11 @@ class FeedHandler(webapp2.RequestHandler):
         return params
     
     def makeTwitterRequest(self, user, api, params):
+
+        # Check if user has been disabled
+        if user.accessSecret[:8] == 'DISABLED':
+            self.abort(403)
+        
         url = "https://api.twitter.com/1.1/{0}".format(api)
         
         client = oauth.TwitterClient(config.CONSUMER_KEY, config.CONSUMER_SECRET, config.CALLBACK)
@@ -147,6 +152,12 @@ class FeedHandler(webapp2.RequestHandler):
 
         return outDict
 
+def handle_403(req, resp, exc):
+    resp.clear()
+    resp.write("Your account has been disabled due to quota restrictions. Please contact @Tweet_2_RSS to get reinstated")
+    resp.set_status(403)
+
+    
 app = webapp2.WSGIApplication([('/feed/([a-zA-Z0-9_]{1,15})/([a-zA-Z0-9]+)/?(.*)', FeedHandler)], debug=True)
 
-
+app.error_handlers[403] = handle_403
