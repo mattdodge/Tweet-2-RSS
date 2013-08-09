@@ -121,6 +121,7 @@
 							<li><a feed-type="usertweets">A User's Tweets</a></li>
 							<li><a feed-type="yourmentions">Mentions of You</a></li>
 							<li><a feed-type="search">Tweets Matching a Phrase</a></li>
+							<li><a feed-type="list">Tweets from a List (good for multiple users)</a></li>
 						</ul>
 					</div>
 				</div>
@@ -234,7 +235,7 @@ feedTypes = {
 		usertweets : {
 			url : 'statuses/user_timeline.json',
 			params : {
-				'screen_name' : ''
+                'screen_name' : '<the username>'
 			}
 		},
 		yourmentions : {
@@ -244,9 +245,17 @@ feedTypes = {
 		search : {
 			url : 'search/tweets.json',
 			params : {
-				'q' : 'search term'
+                'q' : '<search term>'
 			}
-		}
+        },
+        list : {
+            url : 'lists/statuses.json',
+            params : {
+                'owner_screen_name' : '{{ twitterUser.username }}',
+                'slug' : '<name of your list>'
+            }
+        }
+
 };
 
 curFeed = null;
