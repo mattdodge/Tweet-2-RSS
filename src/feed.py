@@ -46,7 +46,7 @@ class FeedHandler(webapp2.RequestHandler):
         result = memcache.get(username)
 
         if result is not None:
-            # Did we get a cached result? Use it! 
+            # We got a cached result
             return result
         
         # Nothing in cache or expired, fetch from datastore then cache that
@@ -61,7 +61,7 @@ class FeedHandler(webapp2.RequestHandler):
             raise Exception, "No Authorized Twitter User found"
 
         # Add it to the cache now
-        memcache.set(username, result, 60 * 15)
+        memcache.set(username, result, 60 * 30)
         
         return result
     
