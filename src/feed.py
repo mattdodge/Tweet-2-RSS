@@ -34,13 +34,18 @@ class FeedHandler(webapp2.RequestHandler):
             
         except Exception as e:
             logging.exception(e)
-            self.raiseError(500, e)
+            self.abort(500, detail=e)
+
+    def handle_exception(self, exception, debug):
+        # If the exception is a HTTPException, use its error code.
+        # Otherwise use a generic 500 error code.
+        if isinstance(exception, webapp2.HTTPException):
+            self.response.out.write(exception.detail)
+            self.response.set_status(exception.code)
+        else:
+            self.response.out.write("An error has occurred")
+            self.response.set_status(500)
             
-    def raiseError(self, errorNum, errorMsg):
-        self.response.clear() 
-        self.response.set_status(errorNum)
-        self.response.out.write(errorMsg)
-    
     def getUser(self, username, accessCode):
         # First try memcache
         result = memcache.get(username)
@@ -58,7 +63,7 @@ class FeedHandler(webapp2.RequestHandler):
         
         if not result:
             # Query did not match any access tokens we have, oops
-            raise Exception, "No Authorized Twitter User found"
+            self.abort(401, detail="No Authorized Twitter User found")
 
         # Add it to the cache now
         memcache.set(username, result, 60 * 30)
@@ -82,7 +87,7 @@ class FeedHandler(webapp2.RequestHandler):
 
         # Check if user has been disabled
         if user.accessSecret[:8] == 'DISABLED':
-            self.abort(403)
+            self.abort(403, detail="Your account has been disabled due to quota restrictions. Please contact @Tweet_2_RSS to get reinstated")
         
         url = "https://api.twitter.com/1.1/{0}".format(api)
         
@@ -152,12 +157,4 @@ class FeedHandler(webapp2.RequestHandler):
 
         return outDict
 
-def handle_403(req, resp, exc):
-    resp.clear()
-    resp.write("Your account has been disabled due to quota restrictions. Please contact @Tweet_2_RSS to get reinstated")
-    resp.set_status(403)
-
-    
 app = webapp2.WSGIApplication([('/feed/([a-zA-Z0-9_]{1,15})/([a-zA-Z0-9]+)/?(.*)', FeedHandler)], debug=True)
-
-app.error_handlers[403] = handle_403
