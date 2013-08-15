@@ -152,8 +152,8 @@ class FeedHandler(webapp2.RequestHandler):
                 continue
 
         if limitKey and firstId and firstId != limitId:
-            # Cache the first id we got for this limit key, keep it for 5 mins
-            memcache.set(limitKey, firstId, 5 * 60)
+            # Cache the first id we got for this limit key, keep it for 15 mins
+            memcache.set(limitKey, firstId, 15 * 60)
 
         return outDict
 
