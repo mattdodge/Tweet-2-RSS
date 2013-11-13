@@ -1,12 +1,12 @@
 application: tweet-2-rss
-version: 1-8
+version: 1-9
 runtime: python27
 api_version: 1
 threadsafe: yes
 
 handlers:
 - url: /feed/.*
-  script: feed.app
+  script: feedempty.app
   
 - url: /twitter_connect
   script: twitter_connect.app
